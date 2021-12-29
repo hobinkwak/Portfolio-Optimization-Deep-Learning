@@ -2,7 +2,12 @@
 
 ## Overview
 
-- 
+- Mean-Variance Optimization to maximize Sharpe ratio using Deep Learning (PyTorch)
+  - 1 layer GRU 
+  - 1 FC layer
+  - loss_fn : minimize negative sharpe
+  - optimizer : SAM (base Adam)
+
 
 ## DL Model
 
