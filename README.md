@@ -1,6 +1,6 @@
 # Portfolio-Optimization-with-Deep-Learning
 
-## Overview
+### Overview
 
 - Mean-Variance Optimization to maximize Sharpe ratio using Deep Learning (PyTorch)
   - 1 layer GRU 
@@ -9,24 +9,37 @@
   - optimizer : SAM (base Adam)
 
 
-## DL Model
+### DL Model
 
 - GRU
 - Transformer
   - the original source is [here](https://github.com/oliverguhr/transformer-time-series-prediction/blob/master/transformer-singlestep.py)
 
-## MVO
+### MVO
 
 - Mean-Variance Optimization
 - Maximize Annualized Sharpe Ratio
 
-## Optimizer
+### Optimizer
 
 - SAM optimizer (base optimizer : Adam) was used
   - the original source is [here](https://github.com/davda54/sam/blob/main/sam.py)
 - Learning Rate : 1e-4 (No Scheduler)
 
-## Data
+### Loss Function
+```python
+def max_sharpe(y_return, weights):
+    weights = torch.unsqueeze(weights, 1) 
+    meanReturn = torch.unsqueeze(torch.mean(y_return, axis=1), 2)  
+    covmat = torch.Tensor([np.cov(batch.cpu().T, ddof=0) for batch in y_return]) 
+    covmat = covmat.to('cuda')
+    portReturn = torch.matmul(weights, meanReturn)  
+    portVol = torch.matmul(weights, torch.matmul(covmat, torch.transpose(weights, 2, 1)))
+    objective = ((portReturn * 12 - 0.02) / (torch.sqrt(portVol * 12)))
+    return -objective.mean()
+```
+
+### Data
 
 - As of November 30, 2021, stocks with more than 5,000 daily price data were selected.
   - AAPL, ABT, AMZN, CSCO, JPM, etc.
@@ -34,10 +47,10 @@
   - We didn't know in the past that these selected stocks would be in S&P500 until November 2021.
   - So, the performance might be different in real market
 
-## Result
+### Result
 
 - 
 
-## Requirements
+### Requirements
 
 - 
