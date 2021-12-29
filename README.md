@@ -47,18 +47,18 @@ def max_sharpe(y_return, weights):
   - We didn't know in the past that these selected stocks would be in S&P500 until November 2021.
   - So, the performance might be different in real market
 
+### Configuration
+
+- train_config.json
+- data_config.json
+
 ### Result
-- Test Date : 
-- GRU (hidden_dim = 64), Dropout (0.2)
-  - Expected Return
-  - Volatility
-  - Sharpe Ratio
-  - MDD
-- GRU (hidden_dim = 128), Dropout (0.2)
-  - Expected Return
-  - Volatility
-  - Sharpe Ratio
-  - MDD
+- Test Date : **From** 2017-04-11 **To** 2021-11-11
+- GRU (hidden_dim = 224), Dropout (0.2)
+  - Expected Return : 0.285321
+  - Volatility : 0.174550
+  - Sharpe Ratio : 1.634610
+  - MDD : -0.168597
 
 ### Requirements
 ```
