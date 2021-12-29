@@ -2,7 +2,7 @@
 
 ## Overview
 
-- dd
+- 
 
 ## DL Model
 
@@ -17,6 +17,7 @@
 ## Optimizer
 
 - SAM optimizer (base optimizer : Adam) was used
+  - the original source is here[https://github.com/davda54/sam/blob/main/sam.py]
 - Learning Rate : 1e-4 (No Scheduler)
 
 ## Data
