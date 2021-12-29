@@ -1,4 +1,4 @@
-# Portfolio-Optimization-with-Deep-Learning
+# Mean-Variance-Optimization-using-Deep-Learning
 
 ### Overview
 
