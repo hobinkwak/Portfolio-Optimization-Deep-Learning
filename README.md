@@ -48,9 +48,22 @@ def max_sharpe(y_return, weights):
   - So, the performance might be different in real market
 
 ### Result
-
-- 
+- Test Date : 
+- GRU (hidden_dim = 64), Dropout (0.2)
+  - Expected Return
+  - Volatility
+  - Sharpe Ratio
+  - MDD
+- GRU (hidden_dim = 128), Dropout (0.2)
+  - Expected Return
+  - Volatility
+  - Sharpe Ratio
+  - MDD
 
 ### Requirements
-
-- 
+```
+numpy==1.20.0
+pandas==1.3.4
+torch==1.7.1+cu110
+yfinance==0.1.67
+```
