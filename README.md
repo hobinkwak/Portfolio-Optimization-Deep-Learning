@@ -53,7 +53,7 @@ def max_sharpe(y_return, weights):
 - data_config.json
 
 ### Result
-- Test Date : **From** 2017-04-11 **To** 2021-11-11
+- Test Date : From **2017-04-11** To **2021-11-11**
 - GRU (hidden_dim = 224), Dropout (0.2)
   - Expected Return : 0.285321
   - Volatility : 0.174550
