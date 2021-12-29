@@ -45,6 +45,10 @@ def max_sharpe(y_return, weights):
 - Survivorship Bias
   - We didn't know in the past that these selected stocks would be in S&P500 until November 2021.
   - So, the performance might be different in real market
+- Make Dataset for Training model
+```bash
+python dataload/make_dataset.py
+```
 
 ### Configuration
 
