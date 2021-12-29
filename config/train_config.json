@@ -1,0 +1,15 @@
+{
+  "MODEL" : "GRU",
+  "BATCH": 32,
+  "SEED": 42,
+  "EPOCHS" : 500,
+  "EARLY_STOP" : 50,
+  "LR" : 0.005,
+  "MOMENTUM": 0.9,
+  "USE_CUDA" : true,
+  "N_LAYER": 1,
+  "HIDDEN_DIM": 128,
+  "N_HEAD" : 10,
+  "N_FEAT": 50,
+  "DROPOUT": 0.3
+}

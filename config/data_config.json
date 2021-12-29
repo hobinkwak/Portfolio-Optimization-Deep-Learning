@@ -1,0 +1,9 @@
+{
+  "START" : "2001-01-01",
+  "END" : "2021-12-27",
+  "N_STOCK" : 50,
+  "LEN_DATA" : 5000,
+  "TRAIN_LEN" : 63,
+  "PRED_LEN" : 21,
+  "TRAIN_RATIO": 0.75
+}
