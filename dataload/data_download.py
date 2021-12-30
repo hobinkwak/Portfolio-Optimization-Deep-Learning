@@ -1,3 +1,4 @@
+import os
 import json
 import pandas as pd
 import yfinance as yf
@@ -19,8 +20,9 @@ def stock_download(
     end="2021-11-30",
     len_data=5000,
     n_stock=50,
-    download_dir="../data/stocks/",
+    download_dir="data/stocks/",
 ):
+    os.makedirs(download_dir, exist_ok=True)
     count = 0
     stock_dict = {}
     for symbol in dic:
@@ -39,13 +41,13 @@ def stock_download(
 
 
 if __name__ == "__main__":
-    config = json.load(open("../config/data_config.json", "r", encoding="utf8"))
-    snp500 = pd.read_csv("../data/snp500.csv")
+    config = json.load(open("config/data_config.json", "r", encoding="utf8"))
+    snp500 = pd.read_csv("data/snp500.csv")
     snp500.loc[snp500.Symbol == "BRK.B", "Symbol"] = "BRK-B"
     snp500 = {tup[2]: tup[1] for tup in snp500.values.tolist()}
     stock_pair = stock_download(
-        snp500, len_data=config["LEN_DATA"], n_stock=config["N_STOCK"], download_dir='../data/stocks/'
+        snp500, len_data=config["LEN_DATA"], n_stock=config["N_STOCK"], download_dir='data/stocks/'
     )
     sp500 = yf.download("^GSPC", config["START"], config["END"])
-    sp500.to_csv("../data/snp500_index.csv")
-    json.dump(stock_pair, open("../data/stock.json", "w", encoding="UTF-8"))
+    sp500.to_csv("data/snp500_index.csv")
+    json.dump(stock_pair, open("data/stock.json", "w", encoding="UTF-8"))
