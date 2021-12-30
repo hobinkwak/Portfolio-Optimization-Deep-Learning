@@ -24,6 +24,8 @@
 
 - SAM optimizer (base optimizer : SGD with momentum 0.9) was used
   - the original source is [here](https://github.com/davda54/sam/blob/main/sam.py)
+  - Of course, you can use Adam as base optimizer of SAM, or just Adam not SAM
+    - but SAM optim (SGD) shows better performance than other options, empirically
 - Learning Rate : 5e-3 (No Scheduler)
 
 ### Loss Function
@@ -37,14 +39,35 @@ def max_sharpe(y_return, weights):
     objective = ((portReturn * 12 - 0.02) / (torch.sqrt(portVol * 12)))
     return -objective.mean()
 ```
+### Constraint
+- You can configure upper/lower bound for portfolio weights
+  - this bounds are handled in **UB** and **LB** key in **train_config.json**
+  - if you don't need any bounds, just set **LB=0** and **UB=1**
+- portfolio weights are adjusted by the function below, before backpropagation
+```python
+def rebalance(self, weight, lb, ub):
+    old = weight
+    weight_clamped = torch.clamp(old, lb, ub)
+    while True:
+        leftover = (old - weight_clamped).sum().item()
+        nominees = weight_clamped[torch.where(weight_clamped != ub)[0]]
+        gift = leftover * (nominees / nominees.sum())
+        weight_clamped[torch.where(weight_clamped != ub)[0]] += gift
+        old = weight_clamped
+        if len(torch.where(weight_clamped > ub)[0]) == 0:
+            break
+        else:
+            weight_clamped = torch.clamp(old, lb, ub)
+    return weight_clamped
+```
 
 ### Data
 
 - As of December 27, 2021, stocks with more than 5,000 daily price data were selected.
   - AAPL, ABT, AMZN, CSCO, JPM, etc.
-- Survivorship Bias
+- Survivorship Bias (Look-ahead Bias)
   - We didn't know in the past that these selected stocks would be in S&P500 until November 2021.
-  - So, the performance might be different in real market
+  - So, the performance might (must) be different in real stock market
 - Make Dataset for Training model
 ```bash
 python dataload/data_download.py
@@ -60,14 +83,18 @@ python dataload/make_dataset.py
   "BATCH": 32,
   "SEED": 42,
   "EPOCHS" : 500,
-  "EARLY_STOP" : 30,
+  "EARLY_STOP" : 50,
   "LR" : 0.005,
+  "MOMENTUM": 0.9,
   "USE_CUDA" : true,
   "N_LAYER": 1,
-  "HIDDEN_DIM": 224,
+  "HIDDEN_DIM": 128,
   "N_HEAD" : 10,
   "N_FEAT": 50,
-  "DROPOUT": 0.3
+  "DROPOUT": 0.3,
+  "BIDIRECTIONAL": false,
+  "LB": 0,
+  "UB": 0.1
 }
 ```
 - data_config.json
@@ -84,8 +111,11 @@ python dataload/make_dataset.py
 ```
 
 ### Result
-- Test Date : From **2017-04-11** To **2021-11-11**
-- GRU (hidden_dim = 128), Dropout (0.3)
+- Test Date
+  - From **2017-04-11** To **2021-11-11**
+- Model
+  - GRU (hidden_dim = 128), Dropout (0.3), Lower/Upper Bounds (0, 0.2)
+- Performance (Transaction costs are **NOT** considered)
   - Expected Return : **0.366340** *(snp500 : 0.134716)*
   - Volatility : **0.224824** *(snp500 : 0.166945)*
   - Sharpe Ratio : **1.629453** *(snp500 : 0.806953)*
