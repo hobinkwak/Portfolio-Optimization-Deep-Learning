@@ -4,10 +4,13 @@ import torch.nn.functional as F
 
 
 class GRU(nn.Module):
-    def __init__(self, n_layers, hidden_dim, n_stocks, dropout_p=0.3, bidirectional=False):
+    def __init__(self, n_layers, hidden_dim, n_stocks, dropout_p=0.3, bidirectional=False,
+                 lb=0, ub=0.1):
         super().__init__()
         self.n_layers = n_layers
         self.hidden_dim = hidden_dim
+        self.lb=lb
+        self.ub =ub
         self.gru = nn.GRU(
             n_stocks, self.hidden_dim, num_layers=self.n_layers, batch_first=True, bidirectional=bidirectional
         )
@@ -22,7 +25,24 @@ class GRU(nn.Module):
         h_t = x[:, -1, :]
         logit = self.fc(self.dropout(h_t))
         logit = self.swish(logit)
-        return F.softmax(logit, dim=-1)
+        logit = F.softmax(logit, dim=-1)
+        logit = torch.stack([self.rebalance(batch, self.lb, self.ub) for batch in logit])
+        return logit
+
+    def rebalance(self, weight, lb, ub):
+        old = weight
+        weight_clamped = torch.clamp(old, lb, ub)
+        while True:
+            leftover = (old - weight_clamped).sum().item()
+            nominees = weight_clamped[torch.where(weight_clamped != ub)[0]]
+            gift = leftover * (nominees / nominees.sum())
+            weight_clamped[torch.where(weight_clamped != ub)[0]] += gift
+            old = weight_clamped
+            if len(torch.where(weight_clamped > ub)[0]) == 0:
+                break
+            else:
+                weight_clamped = torch.clamp(old, lb, ub)
+        return weight_clamped
 
 
 if __name__ == "__main__":
