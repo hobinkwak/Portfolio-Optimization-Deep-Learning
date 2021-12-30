@@ -120,6 +120,7 @@ python dataload/make_dataset.py
   - Volatility : **0.180532** *(snp500 : 0.166945)*
   - Sharpe Ratio : **1.722411** *(snp500 : 0.806953)*
   - MDD : **-0.179543** *(snp500 : -0.233713)*
+- You can see the cumulative return plot in **result** folder
 
 ### Requirements
 ```
