@@ -94,7 +94,7 @@ python dataload/make_dataset.py
   "DROPOUT": 0.3,
   "BIDIRECTIONAL": false,
   "LB": 0,
-  "UB": 0.1
+  "UB": 0.2
 }
 ```
 - data_config.json
@@ -116,10 +116,10 @@ python dataload/make_dataset.py
 - Model
   - GRU (hidden_dim = 128), Dropout (0.3), Lower/Upper Bounds (0, 0.2)
 - Performance (Transaction costs are **NOT** considered)
-  - Expected Return : **0.366340** *(snp500 : 0.134716)*
-  - Volatility : **0.224824** *(snp500 : 0.166945)*
-  - Sharpe Ratio : **1.629453** *(snp500 : 0.806953)*
-  - MDD : **-0.201779** *(snp500 : -0.233713)*
+  - Expected Return : **0.310951** *(snp500 : 0.134716)*
+  - Volatility : **0.180532** *(snp500 : 0.166945)*
+  - Sharpe Ratio : **1.722411** *(snp500 : 0.806953)*
+  - MDD : **-0.179543** *(snp500 : -0.233713)*
 
 ### Requirements
 ```
