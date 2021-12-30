@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-def get_return_df(stock_dic, in_path="../data/stocks/", out_path="../data/"):
+def get_return_df(stock_dic, in_path="data/stocks/", out_path="data/"):
     for i, ticker in enumerate(stock_dic):
         stock = in_path + f"{ticker}.csv"
         stock_df = pd.read_csv(stock, index_col="Date")[["Adj Close"]]
@@ -54,8 +54,8 @@ def data_split(data, train_len, pred_len, tr_ratio, n_stock):
 
 
 if __name__ == "__main__":
-    path = "../data/"
-    config = json.load(open("../config/data_config.json", "r", encoding="utf8"))
+    path = "data/"
+    config = json.load(open("config/data_config.json", "r", encoding="utf8"))
     stock_dict_sp = json.load(open(path + "stock.json", "r", encoding="UTF8"))
     return_df = get_return_df(stock_dict_sp)
     x_tr, y_tr, x_te, y_te, times_tr, times_te = data_split(
