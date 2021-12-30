@@ -3,7 +3,7 @@
   "BATCH": 32,
   "SEED": 42,
   "EPOCHS" : 500,
-  "EARLY_STOP" : 50,
+  "EARLY_STOP" : 40,
   "LR" : 0.005,
   "MOMENTUM": 0.9,
   "USE_CUDA" : true,
@@ -12,5 +12,7 @@
   "N_HEAD" : 10,
   "N_FEAT": 50,
   "DROPOUT": 0.3,
-  "BIDIRECTIONAL": false
+  "BIDIRECTIONAL": false,
+  "LB": 0,
+  "UB": 0.2
 }
