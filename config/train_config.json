@@ -11,5 +11,6 @@
   "HIDDEN_DIM": 128,
   "N_HEAD" : 10,
   "N_FEAT": 50,
-  "DROPOUT": 0.3
+  "DROPOUT": 0.3,
+  "BIDIRECTIONAL": false
 }
