@@ -47,6 +47,7 @@ def max_sharpe(y_return, weights):
   - So, the performance might be different in real market
 - Make Dataset for Training model
 ```bash
+python dataload/data_download.py
 python dataload/make_dataset.py
 ```
 
