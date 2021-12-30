@@ -21,6 +21,7 @@ class Trainer:
                 self.config["HIDDEN_DIM"],
                 self.config["N_FEAT"],
                 self.config["DROPOUT"],
+                self.config["BIDIRECTIONAL"]
             ).to(self.device)
         if model_name.lower() == "transformer":
             self.model = TransAm(
