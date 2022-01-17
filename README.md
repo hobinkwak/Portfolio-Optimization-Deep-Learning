@@ -13,7 +13,7 @@
 
 - GRU
 - Transformer
-  - the original source is [here](https://github.com/oliverguhr/transformer-time-series-prediction/blob/master/transformer-singlestep.py)
+- TCN
 
 ### MVO
 
