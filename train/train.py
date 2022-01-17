@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from model.gru import GRU
-from model.transformer import TransAm
+from model.transformer import Transformer
+from model.tcn import TCN
 from model.sam import SAM
 from model.loss import max_sharpe, equal_risk_parity
 from train.utils import save_model, load_model
@@ -24,14 +25,27 @@ class Trainer:
                 self.config["BIDIRECTIONAL"],
                 self.config['LB'], self.config['UB']
             ).to(self.device)
-
         if model_name.lower() == "transformer":
-            self.model = TransAm(
-                self.config["N_FEAT"],
-                self.config["N_LAYER"],
-                self.config["N_HEAD"],
-                self.config["HIDDEN_DIM"],
-                self.config["DROPOUT"],
+            self.model = Transformer(
+                self.config['TRANSFORMER']['n_feature'],
+                self.config['TRANSFORMER']['n_timestep'],
+                self.config['TRANSFORMER']["n_layer"],
+                self.config['TRANSFORMER']["n_head"],
+                self.config['TRANSFORMER']["n_dropout"],
+                self.config['TRANSFORMER']["n_output"],
+                self.config['LB'], self.config['UB']
+            ).to(self.device)
+        if model_name.lower() == "tcn":
+            hidden_size, level = 5, 3
+            num_channels = [hidden_size] * (level - 1) + [self.config['TCN']['n_timestep']]
+            self.model = TCN(
+                self.config['TCN']['n_feature'],
+                self.config['TCN']['n_output'],
+                num_channels,
+                self.config['TCN']["kernel_size"],
+                self.config['TCN']["n_dropout"],
+                self.config['TCN']["n_timestep"],
+                self.config['LB'], self.config['UB'],
             ).to(self.device)
         base_optimizer = torch.optim.SGD
         self.optimizer = SAM(
@@ -149,13 +163,7 @@ class Trainer:
         plt.show()
 
     def backtest(self, visualize=True):
-        model = GRU(
-            self.config["N_LAYER"],
-            self.config["HIDDEN_DIM"],
-            self.config["N_FEAT"],
-            self.config["DROPOUT"],
-        ).to(self.device)
-        self.model = load_model(model, "result/best_model_weight_hb.pt", use_cuda=True)
+        self.model = load_model(self.model, "result/best_model_weight_hb.pt", use_cuda=True)
 
         myPortfolio, equalPortfolio = [10000], [10000]
         EWPWeights = np.ones(self.N_STOCK) / self.N_STOCK
