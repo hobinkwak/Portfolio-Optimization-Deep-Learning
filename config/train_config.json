@@ -1,18 +1,32 @@
 {
-  "MODEL" : "GRU",
+  "MODEL": "TCN",
   "BATCH": 32,
   "SEED": 42,
-  "EPOCHS" : 500,
-  "EARLY_STOP" : 40,
-  "LR" : 0.005,
+  "EPOCHS": 500,
+  "EARLY_STOP": 20,
+  "LR": 0.005,
   "MOMENTUM": 0.9,
-  "USE_CUDA" : true,
+  "USE_CUDA": true,
   "N_LAYER": 1,
   "HIDDEN_DIM": 128,
-  "N_HEAD" : 10,
   "N_FEAT": 50,
   "DROPOUT": 0.3,
   "BIDIRECTIONAL": false,
   "LB": 0,
-  "UB": 0.2
+  "UB": 0.2,
+  "TCN": {
+    "n_feature": 50,
+    "n_output": 50,
+    "kernel_size": 4,
+    "n_dropout": 0.1,
+    "n_timestep": 63
+  },
+  "TRANSFORMER": {
+    "n_feature": 50,
+    "n_timestep": 63,
+    "n_layer": 6,
+    "n_head": 5,
+    "n_dropout": 0.1,
+    "n_output": 50
+  }
 }
