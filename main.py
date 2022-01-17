@@ -6,10 +6,11 @@ import torch
 from train.train import Trainer
 
 
-def work(config, visualize=False):
+def work(config, train=True, visualize=False):
     worker = Trainer(config)
     worker.set_data()
-    worker.train(visualize)
+    if train:
+        worker.train(visualize)
     worker.backtest(visualize)
 
 
@@ -23,4 +24,4 @@ if __name__ == "__main__":
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-    work(config, visualize=True)
+    work(config, train=True, visualize=True)
