@@ -3,7 +3,7 @@
 ### Overview
 
 - Mean-Variance Optimization to maximize Sharpe ratio using Deep Learning (PyTorch)
-  - 1 layer GRU (or Transformer)
+  - 1 layer GRU / Transformer / TCN
   - 1 FC layer
   - loss_fn : minimize negative sharpe (or Risk Parity)
   - optimizer : SAM (base SGD)
