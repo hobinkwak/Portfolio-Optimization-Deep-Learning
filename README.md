@@ -1,4 +1,4 @@
-## Mean Variance Optimization using Deep Learning Optimizer
+## Mean Variance Optimization by Gradient Descent (PyTorch)
 
 ### Overview
 
